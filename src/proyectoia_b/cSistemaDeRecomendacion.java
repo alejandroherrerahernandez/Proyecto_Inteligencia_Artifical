@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package proyectoia_b;
-//https://github.com/alejandroherrerahernandez/Proyecto_Inteligencia_Artifical.git
 import javax.swing.JComboBox;
 import java.sql.*;
 
