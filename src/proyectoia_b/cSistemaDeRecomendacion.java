@@ -4,12 +4,11 @@
  * and open the template in the editor.
  */
 package proyectoia_b;
-import java.awt.List;
 import javax.swing.JComboBox;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.function.Consumer;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -23,12 +22,12 @@ public class cSistemaDeRecomendacion {
     String sql_interes;
     String sql_random;
     public cSistemaDeRecomendacion(){
-        this.BDD = new cAdminBDD();
+        this.BDD = new cAdminBDD(false);
         this.contador = 10;
         this.sql_rating = "select titulo, ID from book where id in (select book_id from rating where rating BETWEEN 5 and 3)";
         this.sql_vistas = "select b.titulo, b.id from BOOK b join c_vistas v on (b.id = v.book_id) order by v.counter desc";
         this.sql_interes = "select titulo, ID from book where id in  (SELECT LB.BOOK_ID FROM LISTA_CATEGORIA_BOOKS LB JOIN LISTA_CATEGORIA_USER LU ON(LB.CATEGORIA_CATEGORIA = LU.CATEGORIA_CATEGORIA) AND LU.USUARIO_ID = ";
-        this.sql_random = "select titulo, id from (select titulo, id from book order by  SYS.DBMS_RANDOM.VALUE) where rownum <=10";
+        this.sql_random = "select titulo, id from book where rownum <=10 order by Sys.DBMS_RANDOM.VALUE";
     }
     public void cold_start(String user_id, JComboBox cbRating, JComboBox cbViews, JComboBox cbInteres, JComboBox cbDescubre) throws SQLException{
         //Se limpian los JComboBox
@@ -71,7 +70,7 @@ public class cSistemaDeRecomendacion {
                    break;
            }
        }
-       
+       BDD.cold_start(cbSimilitud, "select titulo, id from book where id in (select book_id_d from similares where book_id_o = '" + book_id_actual + "'" +" union select BOOK_ID_O from similares where BOOK_ID_D = '" + book_id_actual + "')");
     }
     void ingresar_combinaciones_satisfactorias(int z, ArrayList<cNodoCombinacion> lista){
        z = z / 2;
@@ -89,8 +88,24 @@ public class cSistemaDeRecomendacion {
                 return a.origen.equals(b.destino);
         return false;
     }
-    public void recomendacion_colaborativa(){}
+    public void recomendacion_aprendizaje(JComboBox cb, String user_id){
+        ArrayList<cNodoAprendizaje> lista = BDD.listaAprendizaje("select autor, count(*) as contador from book where id in (select book_id from rating where usuario_id = "+ user_id + " and RATING BETWEEN 3 and 5) group by autor order by contador desc");
+        for(int i = 0; i < lista.size() && cb.getItemCount() < 25; i++){
+            BDD.cold_start(cb, "select titulo, id from book where autor = '" + lista.get(i).autor + "' and  rownum <= 5;");
+        }
+    }
     void limpiarCB(JComboBox cb){
         cb.removeAllItems();
+    }
+    
+    public void show_book(String seleccion, JLabel titulo, JLabel autor, JLabel edicion, JLabel year, JTextArea taResumen ){
+        cBook libro = BDD.buscar_libro(seleccion.split(";")[1]);
+        if(libro != null){
+            titulo.setText(libro.titulo);
+            autor.setText(libro.autor);
+            edicion.setText(Integer.toString(libro.edicion));
+            year.setText(Integer.toString(libro.year));
+            taResumen.setText(libro.resumen);
+        }
     }
 }
