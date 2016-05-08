@@ -96,11 +96,26 @@ public class Session extends javax.swing.JFrame {
         jLabel4.setText("Más vistos:");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 444, -1, -1));
 
+        cbView.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbViewActionPerformed(evt);
+            }
+        });
         getContentPane().add(cbView, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 469, 204, -1));
 
         cbSimilares.setBorder(null);
+        cbSimilares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbSimilaresActionPerformed(evt);
+            }
+        });
         getContentPane().add(cbSimilares, new org.netbeans.lib.awtextra.AbsoluteConstraints(322, 535, 235, -1));
 
+        cbInteres.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbInteresActionPerformed(evt);
+            }
+        });
         getContentPane().add(cbInteres, new org.netbeans.lib.awtextra.AbsoluteConstraints(322, 469, 235, -1));
 
         jLabel5.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
@@ -202,6 +217,11 @@ public class Session extends javax.swing.JFrame {
         jLabel12.setText("Mejores calificados:");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 510, 204, -1));
 
+        cbRating.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbRatingActionPerformed(evt);
+            }
+        });
         getContentPane().add(cbRating, new org.netbeans.lib.awtextra.AbsoluteConstraints(51, 530, 204, -1));
 
         jLabel14.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
@@ -290,12 +310,39 @@ public class Session extends javax.swing.JFrame {
     }//GEN-LAST:event_cb1ActionPerformed
 
     private void cbDescubreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDescubreActionPerformed
-        // TODO add your handling code here:
         if(cbDescubre.isEnabled() && cbDescubre.getSelectedIndex() != -1){
             sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
             sistema.aumentar_vista(lId.getText());
         }
     }//GEN-LAST:event_cbDescubreActionPerformed
+
+    private void cbRatingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRatingActionPerformed
+        if(cbRating.isEnabled() && cbRating.getSelectedIndex() != -1){
+            sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            sistema.aumentar_vista(lId.getText());
+        }
+    }//GEN-LAST:event_cbRatingActionPerformed
+
+    private void cbSimilaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSimilaresActionPerformed
+        if(cbSimilares.isEnabled() && cbDescubre.getSelectedIndex() != -1){
+            sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            sistema.aumentar_vista(lId.getText());
+        }
+    }//GEN-LAST:event_cbSimilaresActionPerformed
+
+    private void cbInteresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbInteresActionPerformed
+        if(cbInteres.isEnabled() && cbInteres.getSelectedIndex() != -1){
+            sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            sistema.aumentar_vista(lId.getText());
+        }
+    }//GEN-LAST:event_cbInteresActionPerformed
+
+    private void cbViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbViewActionPerformed
+        if(cbView.isEnabled() && cbView.getSelectedIndex() != -1){
+            sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            sistema.aumentar_vista(lId.getText());
+        }
+    }//GEN-LAST:event_cbViewActionPerformed
 
     /**
      * @param args the command line arguments
