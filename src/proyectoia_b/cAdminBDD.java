@@ -47,15 +47,15 @@ public class cAdminBDD {
         try{
             conectar();
             rs = st.executeQuery(sql);
-            
+            cb.setEnabled(false);
             while(rs.next()){
                 actual = rs.getObject(1).toString().trim() + ";" + rs.getString(2);
                 cb.addItem(actual);
             }
+            cb.setEnabled(true);
             cb.setSelectedIndex(-1);
             cnn.close();
             rs.close();
-            ingresando = false;
         }
         catch (Exception e){
             JOptionPane.showMessageDialog(null, e);
@@ -165,11 +165,11 @@ public class cAdminBDD {
                 rating =rs.getInt(1);
             rs.close();
             if(rating == 0){
-                st.executeQuery("insert into c_vistas (book_id, rating) values ('"+ book_id + "'," + 1 + ")");
+                st.executeQuery("insert into c_vistas (book_id, counter) values ('"+ book_id + "'," + 1 + ")");
             }
             else{
                 rating++;
-                st.executeQuery("update c_vistas set rating = " + Integer.toString(rating) + " where book_id = '" + book_id + "'");
+                st.executeQuery("update c_vistas set counter = " + Integer.toString(rating) + " where book_id = '" + book_id + "'");
             }
             cnn.close();
         }
@@ -183,7 +183,7 @@ public class cAdminBDD {
             conectar();
             rs = st.executeQuery("select id, titulo, autor, edicion, year, resumen from book where id = '" + id_book + "'");
             if(rs.next()){
-                libro = new cBook(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6));
+                libro = new cBook(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getInt(5), rs.getString(6).trim());
                 cnn.close();
                 st.close();
                 return libro;

@@ -98,14 +98,19 @@ public class cSistemaDeRecomendacion {
         cb.removeAllItems();
     }
     
-    public void show_book(String seleccion, JLabel titulo, JLabel autor, JLabel edicion, JLabel year, JTextArea taResumen ){
+    public void show_book(String seleccion, JLabel id, JLabel titulo, JLabel autor, JLabel edicion, JLabel year, JTextArea taResumen ){
         cBook libro = BDD.buscar_libro(seleccion.split(";")[1]);
         if(libro != null){
+            id.setText(libro.id);
             titulo.setText(libro.titulo);
             autor.setText(libro.autor);
             edicion.setText(Integer.toString(libro.edicion));
             year.setText(Integer.toString(libro.year));
             taResumen.setText(libro.resumen);
         }
+    }
+    
+    public void aumentar_vista(String id_book){
+        BDD.aumentar_vista(id_book);
     }
 }
