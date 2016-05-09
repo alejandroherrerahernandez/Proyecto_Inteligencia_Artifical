@@ -41,6 +41,30 @@ public class cAdminBDD {
             JOptionPane.showMessageDialog(null, "Error en base de datos al ingresar usuario");
         }
     }
+    
+    public cUsuario Get_Usuario(String name, String password)
+    {
+        try{
+            conectar();
+            rs = st.executeQuery("select id, nombre from usuario where nombre = '" + name + "'");
+            cnn.close();
+            while(rs.next())
+            {
+                String id = rs.getString(1);
+                String n = rs.getString(2);
+                cUsuario user = new cUsuario(n, id);
+                
+                rs.close();
+                return user;
+            }
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error en base de datos al ingresar usuario");
+            return null;
+        }
+        
+        return null;
+    }
 
     public void cold_start(JComboBox cb, String sql){
         String actual = "";
@@ -200,6 +224,10 @@ public class cAdminBDD {
     public cAdminBDD(boolean ingreso)
     {
         ingresando = ingreso;
+    }
+    
+    public cAdminBDD()
+    {
     }
     
     /*  select titulo, ID from book where id in (select book_id from rating where rating BETWEEN 5 and 3);  MOSTRAR LIBROS CON MEJOR RATING

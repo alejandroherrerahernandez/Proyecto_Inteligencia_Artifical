@@ -22,11 +22,20 @@ public class Session extends javax.swing.JFrame {
      */
     
     boolean ingresando;
-    public Session() {
+    cUsuario uActual;
+    
+    public Session(cUsuario user) {
         initComponents();
         this.getContentPane().setBackground(Color.white);
         this.setLocationRelativeTo(null);
         ingresando = true;
+        uActual = user;
+    }
+    
+    public Session() {
+        initComponents();
+        this.getContentPane().setBackground(Color.white);
+        this.setLocationRelativeTo(null);
     }
 
     /**

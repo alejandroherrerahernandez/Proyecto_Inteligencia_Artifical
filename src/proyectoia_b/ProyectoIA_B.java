@@ -16,7 +16,7 @@ public class ProyectoIA_B {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Session.main(args);
+        Login.main(args);
     }
     
 }

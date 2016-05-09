@@ -5,6 +5,9 @@
  */
 package proyectoia_b;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Alejandro
@@ -14,8 +17,15 @@ public class NewUser extends javax.swing.JFrame {
     /**
      * Creates new form NewUser
      */
+    
+    cAdminBDD BDD;
+    List<String> categories;
+    
     public NewUser() {
         initComponents();
+        lblError.setVisible(false);
+        BDD = new cAdminBDD();
+        categories = new ArrayList<String>();
     }
 
     /**
@@ -27,87 +37,146 @@ public class NewUser extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        tbUsername = new javax.swing.JTextField();
+        cbComedia = new javax.swing.JCheckBox();
+        cbFantasia = new javax.swing.JCheckBox();
+        cbTerror = new javax.swing.JCheckBox();
+        cbCiencia = new javax.swing.JCheckBox();
+        cbDrama = new javax.swing.JCheckBox();
+        cbRomance = new javax.swing.JCheckBox();
+        btn_Aceptar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        lblError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
-        jTextField1.setText("jTextField1");
+        cbComedia.setText("Comedia");
 
-        jTextField2.setText("jTextField2");
+        cbFantasia.setText("Fantasia");
 
-        jCheckBox1.setText("jCheckBox1");
+        cbTerror.setText("Terror");
 
-        jCheckBox2.setText("jCheckBox2");
+        cbCiencia.setText("Ciencia Ficción");
 
-        jCheckBox3.setText("jCheckBox3");
+        cbDrama.setText("Drama");
 
-        jCheckBox4.setText("jCheckBox4");
+        cbRomance.setText("Romance");
 
-        jCheckBox5.setText("jCheckBox5");
+        btn_Aceptar.setText("Aceptar");
+        btn_Aceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AceptarActionPerformed(evt);
+            }
+        });
 
-        jCheckBox6.setText("jCheckBox6");
+        jLabel1.setText("Username:");
 
-        jButton1.setText("jButton1");
+        lblError.setForeground(new java.awt.Color(255, 0, 0));
+        lblError.setText("Ese nombre de usuario ya existe");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(158, 158, 158)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(37, 37, 37)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblError)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_Aceptar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tbUsername)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jCheckBox3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBox6))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jCheckBox2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCheckBox5))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                            .addComponent(jCheckBox1)
-                            .addGap(42, 42, 42)
-                            .addComponent(jCheckBox4))
-                        .addComponent(jTextField1)
-                        .addComponent(jTextField2)))
-                .addContainerGap(87, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(cbComedia)
+                                        .addGap(42, 42, 42))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(cbFantasia)
+                                        .addGap(44, 44, 44)))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(cbTerror)
+                                    .addGap(56, 56, 56)))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cbRomance)
+                                .addComponent(cbDrama)
+                                .addComponent(cbCiencia)))))
+                .addContainerGap(66, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tbUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbComedia)
+                    .addComponent(cbCiencia))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbFantasia)
+                    .addComponent(cbDrama))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbTerror)
+                    .addComponent(cbRomance))
+                .addGap(32, 32, 32)
+                .addComponent(btn_Aceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
-                    .addComponent(jCheckBox4))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox5))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox6))
-                .addGap(32, 32, 32)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addComponent(lblError)
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void getCategories()
+    {
+        if(cbComedia.isSelected())
+            categories.add("Comedia");
+        if(cbFantasia.isSelected())
+            categories.add("Fantasia");
+        if(cbTerror.isSelected())
+            categories.add("Terror");
+        if(cbCiencia.isSelected())
+            categories.add("Ciencia Ficcion");
+        if(cbDrama.isSelected())
+            categories.add("Drama");
+        if(cbRomance.isSelected())
+            categories.add("Romance");
+    }
+    
+    private void btn_AceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AceptarActionPerformed
+        // TODO add your handling code here:
+        String username = tbUsername.getText();
+        
+        if(username.length() > 0)
+        {
+            if(BDD.Get_Usuario(username, "") == null)
+            {
+                //Crear Usuario
+                BDD.ingresar_usuario(0, username, "");
+            }
+            else
+            {
+                lblError.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_btn_AceptarActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        lblError.setVisible(false);
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -145,14 +214,15 @@ public class NewUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
-    private javax.swing.JCheckBox jCheckBox6;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton btn_Aceptar;
+    private javax.swing.JCheckBox cbCiencia;
+    private javax.swing.JCheckBox cbComedia;
+    private javax.swing.JCheckBox cbDrama;
+    private javax.swing.JCheckBox cbFantasia;
+    private javax.swing.JCheckBox cbRomance;
+    private javax.swing.JCheckBox cbTerror;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblError;
+    private javax.swing.JTextField tbUsername;
     // End of variables declaration//GEN-END:variables
 }
