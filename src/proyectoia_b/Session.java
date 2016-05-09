@@ -251,30 +251,30 @@ public class Session extends javax.swing.JFrame {
                 bRecomendarActionPerformed(evt);
             }
         });
-        getContentPane().add(bRecomendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 60, 140, 30));
+        getContentPane().add(bRecomendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 60, -1, 30));
 
         jLabel13.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
         jLabel13.setText("Edición:");
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 219, -1, -1));
 
         lTitulo.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lTitulo.setText("--");
+        lTitulo.setText("jLabel15");
         getContentPane().add(lTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 173, -1, -1));
 
         lAutor.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lAutor.setText("--");
+        lAutor.setText("jLabel16");
         getContentPane().add(lAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 199, -1, -1));
 
         lEdicion.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lEdicion.setText("--");
+        lEdicion.setText("jLabel17");
         getContentPane().add(lEdicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 219, -1, -1));
 
         lYear.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lYear.setText("--");
+        lYear.setText("jLabel18");
         getContentPane().add(lYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 243, -1, -1));
 
         lId.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lId.setText("--");
+        lId.setText("jLabel15");
         getContentPane().add(lId, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 153, -1, -1));
 
         jLabel16.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
@@ -282,7 +282,7 @@ public class Session extends javax.swing.JFrame {
         getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 153, -1, -1));
 
         lUser.setText("--");
-        getContentPane().add(lUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, -1, -1));
+        getContentPane().add(lUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 30, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
