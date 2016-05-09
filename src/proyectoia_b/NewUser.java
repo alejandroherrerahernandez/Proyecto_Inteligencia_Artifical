@@ -164,7 +164,10 @@ public class NewUser extends javax.swing.JFrame {
             if(BDD.Get_Usuario(username, "") == null)
             {
                 //Crear Usuario
-                BDD.ingresar_usuario(0, username, "");
+                cUsuario user = BDD.ingresar_usuario(Integer.parseInt(username),username, " ");
+                Session s = new Session(user);
+                this.setVisible(false);
+                s.setVisible(true);
             }
             else
             {

@@ -30,6 +30,7 @@ public class Session extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         ingresando = true;
         uActual = user;
+        lUser.setText(user.id_usuario);
     }
     
     public Session() {
@@ -49,7 +50,7 @@ public class Session extends javax.swing.JFrame {
 
         bgGrupoCalificacion = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        tBuscar = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -92,7 +93,7 @@ public class Session extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jLabel1.setText("Basadas en tu interés:");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(322, 444, -1, -1));
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 64, 411, -1));
+        getContentPane().add(tBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 64, 411, -1));
 
         jLabel2.setFont(new java.awt.Font("Courier New", 0, 12)); // NOI18N
         jLabel2.setText("Buscar libro:");
@@ -258,23 +259,23 @@ public class Session extends javax.swing.JFrame {
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 219, -1, -1));
 
         lTitulo.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lTitulo.setText("jLabel15");
+        lTitulo.setText("--");
         getContentPane().add(lTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 173, -1, -1));
 
         lAutor.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lAutor.setText("jLabel16");
+        lAutor.setText("--");
         getContentPane().add(lAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 199, -1, -1));
 
         lEdicion.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lEdicion.setText("jLabel17");
+        lEdicion.setText("--");
         getContentPane().add(lEdicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 219, -1, -1));
 
         lYear.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lYear.setText("jLabel18");
+        lYear.setText("--");
         getContentPane().add(lYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 243, -1, -1));
 
         lId.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lId.setText("jLabel15");
+        lId.setText("--");
         getContentPane().add(lId, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 153, -1, -1));
 
         jLabel16.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
@@ -290,73 +291,91 @@ public class Session extends javax.swing.JFrame {
       cSistemaDeRecomendacion sistema = new cSistemaDeRecomendacion();
     
     private void bBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBuscarActionPerformed
-        BDD.ingresar_usuario(1, "alejandro", "hola");
+        if(!tBuscar.getText().isEmpty()){
+            sistema.busqueda(tBuscar.getText(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+        }
     }//GEN-LAST:event_bBuscarActionPerformed
 
     private void bRecomendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRecomendarActionPerformed
         try {
-            sistema.cold_start("123", cbRating, cbView, cbInteres, cbDescubre);
+            sistema.cold_start(lUser.getText(), cbRating, cbView, cbInteres, cbDescubre);
             if(!lId.equals("--"))
                 sistema.recomendacion_similitud(cbSimilares, lId.getText());
             if(!lUser.equals("--"))
                 sistema.recomendacion_aprendizaje(cbInteres, lUser.getText());
+            JOptionPane.showMessageDialog(null, "Se encontraron nuevas recomendaciones");
         } catch (SQLException ex) {
             Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_bRecomendarActionPerformed
 
     private void cb5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb5ActionPerformed
-        //BDD.ingresar_rating(user_id, lId.getText(), 5);
+        BDD.ingresar_rating(lUser.getText(), lId.getText(), 5);
     }//GEN-LAST:event_cb5ActionPerformed
 
     private void cb4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb4ActionPerformed
-        // BDD.ingresar_rating(user_id, lId.getText(), 4);
+        BDD.ingresar_rating(lUser.getText(), lId.getText(), 4);
     }//GEN-LAST:event_cb4ActionPerformed
 
     private void cb3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb3ActionPerformed
-        // BDD.ingresar_rating(user_id, lId.getText(), 3);
+        BDD.ingresar_rating(lUser.getText(), lId.getText(), 3);
     }//GEN-LAST:event_cb3ActionPerformed
 
     private void cb2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb2ActionPerformed
-        // BDD.ingresar_rating(user_id, lId.getText(), 2);
+        BDD.ingresar_rating(lUser.getText(), lId.getText(), 2);
     }//GEN-LAST:event_cb2ActionPerformed
 
     private void cb1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb1ActionPerformed
-        //BDD.ingresar_rating(user_id, lId.getText(), 1);
+        BDD.ingresar_rating(lUser.getText(), lId.getText(), 1);
         
     }//GEN-LAST:event_cb1ActionPerformed
 
     private void cbDescubreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDescubreActionPerformed
         if(cbDescubre.isEnabled() && cbDescubre.getSelectedIndex() != -1){
+            String a = lId.getText();
+            String b = cbDescubre.getSelectedItem().toString().split(";")[1];
             sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            sistema.insertar_transaction(a, b);
             sistema.aumentar_vista(lId.getText());
         }
     }//GEN-LAST:event_cbDescubreActionPerformed
 
     private void cbRatingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbRatingActionPerformed
         if(cbRating.isEnabled() && cbRating.getSelectedIndex() != -1){
-            sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            String a = lId.getText();
+            String b = cbRating.getSelectedItem().toString().split(";")[1];
+            sistema.show_book((String) cbRating.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            sistema.insertar_transaction(a, b);
             sistema.aumentar_vista(lId.getText());
         }
     }//GEN-LAST:event_cbRatingActionPerformed
 
     private void cbSimilaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbSimilaresActionPerformed
         if(cbSimilares.isEnabled() && cbDescubre.getSelectedIndex() != -1){
-            sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            String a = lId.getText();
+            String b = cbSimilares.getSelectedItem().toString().split(";")[1];
+            sistema.show_book((String) cbSimilares.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            sistema.insertar_transaction(a, b);
             sistema.aumentar_vista(lId.getText());
         }
     }//GEN-LAST:event_cbSimilaresActionPerformed
 
     private void cbInteresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbInteresActionPerformed
         if(cbInteres.isEnabled() && cbInteres.getSelectedIndex() != -1){
-            sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            String a = lId.getText();
+            String b = cbInteres.getSelectedItem().toString().split(";")[1];
+            sistema.show_book((String) cbInteres.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            sistema.insertar_transaction(a, b);
             sistema.aumentar_vista(lId.getText());
         }
     }//GEN-LAST:event_cbInteresActionPerformed
 
     private void cbViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbViewActionPerformed
         if(cbView.isEnabled() && cbView.getSelectedIndex() != -1){
-            sistema.show_book((String) cbDescubre.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            String a = lId.getText();
+            String b = cbView.getSelectedItem().toString().split(";")[1];
+            sistema.show_book((String) cbView.getSelectedItem(), lId, lTitulo, lAutor, lEdicion, lYear, taResumen);
+            sistema.insertar_transaction(a, b);
             sistema.aumentar_vista(lId.getText());
         }
     }//GEN-LAST:event_cbViewActionPerformed
@@ -426,13 +445,13 @@ public class Session extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lAutor;
     private javax.swing.JLabel lEdicion;
     private javax.swing.JLabel lId;
     private javax.swing.JLabel lTitulo;
     private javax.swing.JLabel lUser;
     private javax.swing.JLabel lYear;
+    private javax.swing.JTextField tBuscar;
     private javax.swing.JTextArea taResumen;
     // End of variables declaration//GEN-END:variables
 }

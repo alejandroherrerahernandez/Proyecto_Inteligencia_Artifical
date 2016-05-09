@@ -21,13 +21,15 @@ public class cSistemaDeRecomendacion {
     String sql_vistas;
     String sql_interes;
     String sql_random;
+    String sql_insert_transac;
     public cSistemaDeRecomendacion(){
         this.BDD = new cAdminBDD(false);
         this.contador = 10;
-        this.sql_rating = "select titulo, ID from book where id in (select book_id from rating where rating BETWEEN 5 and 3)";
+        this.sql_rating = "select titulo, ID from book where id in (select book_id from rating where rating BETWEEN 3 and 5)";
         this.sql_vistas = "select b.titulo, b.id from BOOK b join c_vistas v on (b.id = v.book_id) order by v.counter desc";
         this.sql_interes = "select titulo, ID from book where id in  (SELECT LB.BOOK_ID FROM LISTA_CATEGORIA_BOOKS LB JOIN LISTA_CATEGORIA_USER LU ON(LB.CATEGORIA_CATEGORIA = LU.CATEGORIA_CATEGORIA) AND LU.USUARIO_ID = ";
         this.sql_random = "select titulo, id from book where rownum <=10 order by Sys.DBMS_RANDOM.VALUE";
+        this.sql_insert_transac = "insert into transaction (book_id_origen, book_id_destino) values ('";
     }
     public void cold_start(String user_id, JComboBox cbRating, JComboBox cbViews, JComboBox cbInteres, JComboBox cbDescubre) throws SQLException{
         //Se limpian los JComboBox
@@ -37,40 +39,51 @@ public class cSistemaDeRecomendacion {
         //Se ejecutan los procedimientos para obtener información 
         BDD.cold_start(cbRating, sql_rating);
         BDD.cold_start(cbViews, sql_vistas);
-        BDD.cold_start(cbInteres, sql_interes + user_id + ")");
+       /* BDD.cold_start(cbInteres, sql_interes + user_id + ")");*/
         BDD.cold_start(cbDescubre, sql_random);
+    }
+    
+    public void insertar_transaction(String book_id_o, String book_id_d)
+    {
+        if(!"--".equals(book_id_o) && !"--".equals(book_id_d))
+        {
+            BDD.ingresar_transaction(sql_insert_transac + book_id_o + "','" + book_id_d + "')" );
+        }
     }
     public void recomendacion_similitud(JComboBox cbSimilitud, String book_id_actual){
        limpiarCB(cbSimilitud);
        int z = BDD.get_uniques_id_from_transaction("select count(distinct book_id_origen) from TRANSACTION", "select count(distinct book_id_destino) from TRANSACTION where BOOK_ID_DESTINO not in (select distinct(book_id_origen) from transaction)");
        if(z > 0){
            ArrayList<cNodoCombinacion> lista = BDD.listaCombinaciones("select book_id_origen, book_id_destino from transaction");
-           switch(lista.size()){
-               case 1:
-                   BDD.delete("delete from similares");
-                   BDD.insert("insert into similares (book_id_o, book_id_d) values ('" + lista.get(0).origen + "','" + lista.get(0).destino + "')");
-                   break;
-               default:
-                   for(int i = 0; i <lista.size(); i++){
-                       if(!lista.get(i).visto){
-                           lista.get(i).aumentar_ocurrencias();
-                           lista.get(i).set_visto();
-                           if(i != lista.size() -1){
-                               for(int j = i +1; j <lista.size(); j++){
-                                   if(!lista.get(j).visto && nodos_iguales(lista.get(i), lista.get(j))){
-                                       lista.get(i).aumentar_ocurrencias();
-                                       lista.get(j).set_visto();
-                                    }
+           if(lista != null)
+           {
+                switch(lista.size()){
+                    case 1:
+                        BDD.delete("delete from similares");
+                        BDD.insert("insert into similares (book_id_o, book_id_d) values ('" + lista.get(0).origen + "','" + lista.get(0).destino + "')");
+                        break;
+                    default:
+                        for(int i = 0; i <lista.size(); i++){
+                            if(!lista.get(i).visto){
+                                lista.get(i).aumentar_ocurrencias();
+                                lista.get(i).set_visto();
+                                if(i != lista.size() -1){
+                                    for(int j = i +1; j <lista.size(); j++){
+                                        if(!lista.get(j).visto && nodos_iguales(lista.get(i), lista.get(j))){
+                                            lista.get(i).aumentar_ocurrencias();
+                                            lista.get(j).set_visto();
+                                         }
+                                     }
+                                 }
+                                else{
+                                    lista.get(i).aumentar_ocurrencias();
                                 }
-                            }
-                           else{
-                               lista.get(i).aumentar_ocurrencias();
-                           }
-                        }
-                    }
-                   BDD.delete("delete from similares");
-                   ingresar_combinaciones_satisfactorias(z, lista);
-                   break;
+                             }
+                         }
+                        BDD.delete("delete from similares");
+                        ingresar_combinaciones_satisfactorias(z, lista);
+                        break;
+                }
            }
        }
        BDD.cold_start(cbSimilitud, "select titulo, id from book where id in (select book_id_d from similares where book_id_o = '" + book_id_actual + "'" +" union select BOOK_ID_O from similares where BOOK_ID_D = '" + book_id_actual + "')");
@@ -93,9 +106,10 @@ public class cSistemaDeRecomendacion {
     }
     public void recomendacion_aprendizaje(JComboBox cb, String user_id){
         ArrayList<cNodoAprendizaje> lista = BDD.listaAprendizaje("select autor, count(*) as contador from book where id in (select book_id from rating where usuario_id = "+ user_id + " and RATING BETWEEN 3 and 5) group by autor order by contador desc");
-        for(int i = 0; i < lista.size() && cb.getItemCount() < 25; i++){
-            BDD.cold_start(cb, "select titulo, id from book where autor = '" + lista.get(i).autor + "' and  rownum <= 5;");
-        }
+        if(lista != null)
+            for(int i = 0; i < lista.size() && cb.getItemCount() < 25; i++){
+                BDD.cold_start(cb, "select titulo, id from book where autor = '" + lista.get(i).autor + "' and  rownum <= 5");
+            }
     }
     void limpiarCB(JComboBox cb){
         cb.removeAllItems();
@@ -112,7 +126,18 @@ public class cSistemaDeRecomendacion {
             taResumen.setText(libro.resumen);
         }
     }
-    
+    public void busqueda(String stitulo, JLabel id, JLabel titulo, JLabel autor, JLabel edicion, JLabel year, JTextArea taResumen ){
+        String sid = BDD.getId(stitulo);
+        if(sid != null){
+            cBook libro = BDD.buscar_libro(sid);
+            id.setText(libro.id);
+            titulo.setText(libro.titulo);
+            autor.setText(libro.autor);
+            edicion.setText(Integer.toString(libro.edicion));
+            year.setText(Integer.toString(libro.year));
+            taResumen.setText(libro.resumen);
+        }
+    }
     public void aumentar_vista(String id_book){
         BDD.aumentar_vista(id_book);
     }

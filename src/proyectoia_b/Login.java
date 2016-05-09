@@ -111,7 +111,7 @@ public class Login extends javax.swing.JFrame {
         String username = tb_Username.getText();
         if(username.length() > 0)
         {
-            cUsuario user = BDD.Get_Usuario(username, "");
+            cUsuario user = BDD.Get_Usuario(username, " ");
             if(user != null)
             {
                 Session UserSession = new Session(user);

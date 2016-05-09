@@ -31,23 +31,53 @@ public class cAdminBDD {
         }
     }
     
-    public void ingresar_usuario(int id, String name, String password){
+    public cUsuario ingresar_usuario(int id, String name, String password){
         try{
             conectar();
             st.executeQuery("insert into usuario (id, nombre, password) values (" + Integer.toString(id) + ",'" + name + "','" + password + "')");
             cnn.close();
+            return new cUsuario(name, Integer.toString(id));
         }
         catch(Exception e){
             JOptionPane.showMessageDialog(null, "Error en base de datos al ingresar usuario");
         }
+        return null;
     }
-    
+    public String getId(String titulo){
+        String id;
+         try{
+            conectar();
+            rs = st.executeQuery("select id from book where titulo like '%" + titulo + "%'");
+            if(rs.next()){
+                id = rs.getString(1);
+                cnn.close();
+                st.close();
+                return id;
+            }
+            cnn.close();
+            st.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return null;
+    }
+    public void ingresar_transaction(String sql){
+        try{
+            conectar();
+            st.executeQuery(sql);
+            cnn.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Error al ingresar en tabla TRANSACTION");
+        }
+    }
     public cUsuario Get_Usuario(String name, String password)
     {
         try{
             conectar();
-            rs = st.executeQuery("select id, nombre from usuario where nombre = '" + name + "'");
-            cnn.close();
+            rs = st.executeQuery("select id, nombre from usuario where id = " + name);
+            
             while(rs.next())
             {
                 String id = rs.getString(1);
@@ -57,9 +87,10 @@ public class cAdminBDD {
                 rs.close();
                 return user;
             }
+            cnn.close();
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos al ingresar usuario");
+            JOptionPane.showMessageDialog(null, "Error en base de datos al buscar el usuario");
             return null;
         }
         
@@ -172,11 +203,11 @@ public class cAdminBDD {
     public void ingresar_rating(String user_id, String book_id, int rating){
         try{
             conectar();
-            st.executeQuery("insert into rating (usuario_id, book_id, rating_id) values ('" + user_id + "','" + book_id + "'," + Integer.toString(rating) + ")");
+            st.executeQuery("insert into rating (usuario_id, book_id, rating) values (" + user_id + ",'" + book_id + "'," + Integer.toString(rating) + ")");
             cnn.close();
         }
         catch(Exception e){
-            JOptionPane.showMessageDialog(null, "Error en base de datos al ingresar usuario");
+            JOptionPane.showMessageDialog(null, "Error en base de datos al ingresar calificacion");
         }
     }
     
