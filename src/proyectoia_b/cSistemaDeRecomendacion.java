@@ -62,7 +62,10 @@ public class cSistemaDeRecomendacion {
                                        lista.get(j).set_visto();
                                     }
                                 }
-                            } 
+                            }
+                           else{
+                               lista.get(i).aumentar_ocurrencias();
+                           }
                         }
                     }
                    BDD.delete("delete from similares");

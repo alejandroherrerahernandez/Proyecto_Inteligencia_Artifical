@@ -66,7 +66,7 @@ public class Session extends javax.swing.JFrame {
         cbRating = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
         cbDescubre = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        bRecomendar = new javax.swing.JButton();
         jLabel13 = new javax.swing.JLabel();
         lTitulo = new javax.swing.JLabel();
         lAutor = new javax.swing.JLabel();
@@ -74,6 +74,7 @@ public class Session extends javax.swing.JFrame {
         lYear = new javax.swing.JLabel();
         lId = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
+        lUser = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -235,41 +236,44 @@ public class Session extends javax.swing.JFrame {
         });
         getContentPane().add(cbDescubre, new org.netbeans.lib.awtextra.AbsoluteConstraints(612, 469, 248, -1));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        bRecomendar.setText("Recomendar");
+        bRecomendar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                bRecomendarActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(665, 141, -1, -1));
+        getContentPane().add(bRecomendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 60, 140, 30));
 
         jLabel13.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
         jLabel13.setText("Edición:");
         getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 219, -1, -1));
 
         lTitulo.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lTitulo.setText("jLabel15");
+        lTitulo.setText("--");
         getContentPane().add(lTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 173, -1, -1));
 
         lAutor.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lAutor.setText("jLabel16");
+        lAutor.setText("--");
         getContentPane().add(lAutor, new org.netbeans.lib.awtextra.AbsoluteConstraints(98, 199, -1, -1));
 
         lEdicion.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lEdicion.setText("jLabel17");
+        lEdicion.setText("--");
         getContentPane().add(lEdicion, new org.netbeans.lib.awtextra.AbsoluteConstraints(112, 219, -1, -1));
 
         lYear.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lYear.setText("jLabel18");
+        lYear.setText("--");
         getContentPane().add(lYear, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 243, -1, -1));
 
         lId.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
-        lId.setText("jLabel15");
+        lId.setText("--");
         getContentPane().add(lId, new org.netbeans.lib.awtextra.AbsoluteConstraints(94, 153, -1, -1));
 
         jLabel16.setFont(new java.awt.Font("Courier New", 1, 12)); // NOI18N
         jLabel16.setText("ISBN:");
         getContentPane().add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 153, -1, -1));
+
+        lUser.setText("--");
+        getContentPane().add(lUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -280,13 +284,17 @@ public class Session extends javax.swing.JFrame {
         BDD.ingresar_usuario(1, "alejandro", "hola");
     }//GEN-LAST:event_bBuscarActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void bRecomendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bRecomendarActionPerformed
         try {
             sistema.cold_start("123", cbRating, cbView, cbInteres, cbDescubre);
+            if(!lId.equals("--"))
+                sistema.recomendacion_similitud(cbSimilares, lId.getText());
+            if(!lUser.equals("--"))
+                sistema.recomendacion_aprendizaje(cbInteres, lUser.getText());
         } catch (SQLException ex) {
             Logger.getLogger(Session.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_bRecomendarActionPerformed
 
     private void cb5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb5ActionPerformed
         //BDD.ingresar_rating(user_id, lId.getText(), 5);
@@ -381,6 +389,7 @@ public class Session extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBuscar;
+    private javax.swing.JButton bRecomendar;
     private javax.swing.ButtonGroup bgGrupoCalificacion;
     private javax.swing.JRadioButton cb1;
     private javax.swing.JRadioButton cb2;
@@ -392,7 +401,6 @@ public class Session extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbRating;
     private javax.swing.JComboBox<String> cbSimilares;
     private javax.swing.JComboBox<String> cbView;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -414,6 +422,7 @@ public class Session extends javax.swing.JFrame {
     private javax.swing.JLabel lEdicion;
     private javax.swing.JLabel lId;
     private javax.swing.JLabel lTitulo;
+    private javax.swing.JLabel lUser;
     private javax.swing.JLabel lYear;
     private javax.swing.JTextArea taResumen;
     // End of variables declaration//GEN-END:variables
